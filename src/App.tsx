@@ -3,7 +3,7 @@ import './App.css';
 import {Todolist} from './Todolist';
 import {v1} from 'uuid';
 import {AddItemForm} from "./AddItemForm";
-import {todolistsReducer, removeTodolistAC} from "./store/todolists-reducer";
+import {todolistsReducer, removeTodolistAC, addTodolistAC, updateTodolistAC} from "./store/todolists-reducer";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -44,6 +44,7 @@ function App() {
             {id: v1(), title: "Rest API2", isDone: false},
             {id: v1(), title: "GraphQL2", isDone: false},
         ]
+
     });
 
     const removeTodolist = (todolistID: string) => {
@@ -74,6 +75,7 @@ function App() {
 
     const updateTodolist = (todolistID: string, newTitle: string) => {
         // setTodolists(todolists.map(el => el.id === todolistID ? {...el, title: newTitle} : el))
+        dispatchTodolists(updateTodolistAC(todolistID, newTitle))
     }
 
     const addTodolist = (newTitle: string) => {
@@ -81,6 +83,8 @@ function App() {
         // const newTodo: TodolistsType = {id: newID, title: newTitle, filter: "all"}
         // setTodolists([...todolists, newTodo])
         // setTasks({...tasks, [newID]: []})
+
+        dispatchTodolists(addTodolistAC(newTitle))
     }
 
     function changeStatus(todolistID: string, taskId: string, newIsDone: boolean) {
