@@ -4,7 +4,7 @@ import {Todolist} from './Todolist';
 import {v1} from 'uuid';
 import {AddItemForm} from "./AddItemForm";
 import {todolistsReducer, removeTodolistAC, addTodolistAC, updateTodolistAC} from "./store/todolists-reducer";
-import {removeTaskAC, tasksReducer} from "./store/tasks-reducer";
+import {addTaskAC, removeTaskAC, tasksReducer} from "./store/tasks-reducer";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -69,6 +69,7 @@ function App() {
         // setTasks({...tasks, [todolistID]: [newTask, ...tasks[todolistID]]});
         // // let newTasks = [task, ...tasks];
         // // setTasks(newTasks);
+        dispatchTasks(addTaskAC(todolistID, title))
     }
 
     const updateTask = (todolistID: string, taskID: string, newTitle: string) => {
