@@ -4,7 +4,7 @@ import {Todolist} from './Todolist';
 import {v1} from 'uuid';
 import {AddItemForm} from "./AddItemForm";
 import {todolistsReducer, removeTodolistAC, addTodolistAC, updateTodolistAC} from "./store/todolists-reducer";
-import {addTaskAC, removeTaskAC, tasksReducer, updateTaskAC} from "./store/tasks-reducer";
+import {addTaskAC, changeStatusAC, removeTaskAC, tasksReducer, updateTaskAC} from "./store/tasks-reducer";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -104,6 +104,7 @@ function App() {
         //     ...tasks,
         //     [todolistID]: tasks[todolistID].map(el => el.id === taskId ? {...el, isDone: newIsDone} : el)
         // })
+        dispatchTasks(changeStatusAC(todolistID, taskId, newIsDone))
     }
 
     function changeFilter(todolistID: string, valueFilter: FilterValuesType) {

@@ -14,8 +14,16 @@ export const tasksReducer = (state: TaskStateType, action: TasksAllACType): Task
             return {...state, [action.payload.todolistID]: [newTask, ...state[action.payload.todolistID]]}
         }
         case 'UPDATE-TASK': {
-            return {...state, [action.payload.todolistID]: state[action.payload.todolistID].map(el =>
-                    el.id === action.payload.taskID ? {...el, title: action.payload.newTitle}: el)}
+            return {
+                ...state, [action.payload.todolistID]: state[action.payload.todolistID].map(el =>
+                    el.id === action.payload.taskID ? {...el, title: action.payload.newTitle} : el)
+            }
+        }
+        case 'CHANGE-STATUS': {
+            return {
+            ...state, [action.payload.todolistID]:state[action.payload.todolistID].map(el =>
+                el.id === action.payload.taskId ? {...el, isDone: action.payload.newIsDone} : el)
+            }
         }
         default:
             return state
@@ -24,6 +32,7 @@ export const tasksReducer = (state: TaskStateType, action: TasksAllACType): Task
 export type TasksAllACType = removeTaskACType
     | addTaskACType
     | updateTaskACType
+    | changeStatusACType
 
 
 type removeTaskACType = ReturnType<typeof removeTaskAC>
@@ -56,6 +65,18 @@ export const updateTaskAC = (todolistID: string, taskID: string, newTitle: strin
             todolistID,
             taskID,
             newTitle
+        }
+    } as const
+}
+
+type changeStatusACType = ReturnType<typeof changeStatusAC>
+export const changeStatusAC = (todolistID: string, taskId: string, newIsDone: boolean) => {
+    return {
+        type: 'CHANGE-STATUS',
+        payload: {
+            todolistID,
+            taskId,
+            newIsDone
         }
     } as const
 }
