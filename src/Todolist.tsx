@@ -71,7 +71,8 @@ export function Todolist(props: PropsType) {
 
         <ul>
             {
-                props.tasks.map(t => {
+                props.tasks && props.tasks.map(t => {
+                    // debugger
 
                     // const onClickHandler = () => props.removeTask(props.todolistID, t.taskID)
 

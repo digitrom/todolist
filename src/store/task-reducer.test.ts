@@ -74,3 +74,5 @@ test('correct task should change its status', () => {
     expect(endState[todolistID1][0].isDone).toBe(false)
     expect(endState[todolistID2][0].isDone).toBe(true)
 })
+
+test
