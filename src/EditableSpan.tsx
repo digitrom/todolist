@@ -8,7 +8,7 @@ type EditableSpanPropsType = {
 export const EditableSpan = (props: EditableSpanPropsType) => {
     const [edit, setEdit] = useState(false) // 2 состояния - true/false
     let [newTitle, setNewTitle] = useState(props.oldTitle)
-    console.log(newTitle)
+    // console.log(newTitle)
 
     const editHandler = () => {
         setEdit(!edit)

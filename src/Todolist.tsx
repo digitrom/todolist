@@ -53,6 +53,8 @@ export function Todolist(props: PropsType) {
     const addTaskHandler = (title: string) => {
         props.addTask(props.todolistID, title)
     }
+    //здесь в пар-ры  принимаем newTitle (здесь даем ему название просто title),  переданный callback-ом  из AddItemForm
+    //  и передаем вместе с todolistID в callback addTask в комп-ту App
 
     const updateTaskHandler = (taskID: string, newTitle: string) => {
         props.updateTask(props.todolistID, taskID, newTitle)
@@ -71,7 +73,7 @@ export function Todolist(props: PropsType) {
 
         <ul>
             {
-                props.tasks && props.tasks.map(t => {
+                props.tasks.map(t => {
                     // debugger
 
                     // const onClickHandler = () => props.removeTask(props.todolistID, t.taskID)
