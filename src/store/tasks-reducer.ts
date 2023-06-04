@@ -1,6 +1,6 @@
 import {TaskStateType} from "../App";
 import {v1} from "uuid";
-import {addTodolistACType} from "./todolists-reducer";
+import {addTodolistACType, removeTodolistACType} from "./todolists-reducer";
 
 export const tasksReducer = (state: TaskStateType, action: TasksAllACType): TaskStateType => {
     switch (action.type) {
@@ -18,19 +18,36 @@ export const tasksReducer = (state: TaskStateType, action: TasksAllACType): Task
         case 'UPDATE-TASK': {
             return {
                 ...state, [action.payload.todolistID]: state[action.payload.todolistID].map(el =>
-                     el.id === action.payload.taskID ? {...el, title: action.payload.newTitle} : el)
+                    el.id === action.payload.taskID ? {...el, title: action.payload.newTitle} : el)
             }
         }
         case 'CHANGE-STATUS': {
             return {
-            ...state, [action.payload.todolistID]:state[action.payload.todolistID].map(el =>
-                el.id === action.payload.taskId ? {...el, isDone: action.payload.newIsDone} : el)
+                ...state, [action.payload.todolistID]: state[action.payload.todolistID].map(el =>
+                    el.id === action.payload.taskId ? {...el, isDone: action.payload.newIsDone} : el)
             }
-        } case 'ADD-TODOLIST': {
+            //ниже task-reducer научился реагировать на тип action-а из todolist-reducer
+        }
+        case 'ADD-TODOLIST': {
             return {
-            ...state, [action.payload.id]:[]
+                ...state, [action.payload.todolistID]: []
             }
         }
+        case 'REMOVE-TODOLIST': {
+            // let copyState = {...state}
+            // delete copyState[action.payload.todolistID]
+            // return copyState
+            const {[action.payload.todolistID]: [], ...rest} = state
+            return rest
+            //rest -  альтернатива  delete: и то и то удаляет св-во из объекта
+            // -деструктурируем объект -> берем св-во, кот-ое надо удалить -> присваеваем любое
+            // -значение (напр. [])
+            // -берем оставшуюся часть оьбъекта ...rest
+            // -обозначаем тот объект, который деструктурируем: state
+            //  и возвращаем  rest
+
+        }
+
         default:
             return state
     }
@@ -39,15 +56,16 @@ export type TasksAllACType = removeTaskACType
     | addTaskACType
     | updateTaskACType
     | changeTaskStatusACType
-    | addTodolistACType
+    | addTodolistACType // этот тип импоритрован из todolist-reducer
+    | removeTodolistACType
 
 
 type removeTaskACType = ReturnType<typeof removeTaskAC>
-export const removeTaskAC = (params:{todolistID: string, taskID: string}) => {
+export const removeTaskAC = (params: { todolistID: string, taskID: string }) => {
 
     return {
         type: 'REMOVE-TASK',
-            params
+        params
     } as const
 }
 
@@ -85,3 +103,4 @@ export const changeTaskStatusAC = (todolistID: string, taskId: string, newIsDone
         }
     } as const
 }
+

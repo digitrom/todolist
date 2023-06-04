@@ -7,7 +7,7 @@ export const todolistsReducer = (state: TodolistsType[], action: TodolistAllACTy
             return state.filter(el => el.id !== action.payload.todolistID)
         }
         case 'ADD-TODOLIST': {
-            const newTodo: TodolistsType = {id: action.payload.id, title: action.payload.newTitle, filter: "all"}
+            const newTodo: TodolistsType = {id: action.payload.todolistID, title: action.payload.newTitle, filter: "all"}
             return [...state, newTodo]
         }
         case 'CHANGE-TODOLIST-TITLE': {
@@ -38,7 +38,7 @@ export const addTodolistAC = (newTitle: string) => {
     return {
         type: 'ADD-TODOLIST',
         payload: {
-            id: v1(),
+            todolistID: v1(),// создаем общий ключ для task-reducer - todolist-reducer
             newTitle
         }
     } as const
