@@ -40,7 +40,11 @@ function AppWithRedux() {
 
     let todolists  = useSelector<AppRootStateType, Array<TodolistsType>>(state => state.todolists)
 
-    let tasks = useSelector<AppRootStateType, TaskStateType>(state => state.tasks)
+    // let tasks = useSelector<AppRootStateType, TaskStateType>(state => state.tasks)
+    // таски не нужны в этой компоненте, мы их отмапили в Todolist
+    //поэтому их нажо удалить из App, иначе будет перерендерриваться все компоненты, т.к.
+    // есть useSelector, который забирает часть стейта с таксами из стора, который при
+    // измененении любой таски ререндиерит всю родительскую компоненту App
 
     const dispatch = useDispatch()
     const addTodolist = (newTitle: string) => {
@@ -79,8 +83,6 @@ function AppWithRedux() {
         <div className="App">
             < AddItemForm callBack={addTodolist}/>
             {todolists.map(el => {
-                let tasksForTodolist = tasks[el.id]
-
                 return (
                     <TodolistWithRedux
                      todolist={el}
