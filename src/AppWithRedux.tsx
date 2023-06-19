@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {AddItemForm} from "./AddItemForm";
 import {
@@ -41,37 +41,38 @@ function AppWithRedux() {
     // измененении любой таски ререндиерит всю родительскую компоненту App
 
     const dispatch = useDispatch()
-    const addTodolist = (newTitle: string) => {
+
+    const addTodolist = useCallback((newTitle: string) => {
         dispatch(addTodolistAC(newTitle))
-    }
+    }, [dispatch])
 
-    const updateTodolist = (todolistID: string, newTitle: string) => {
-        dispatch(updateTodolistAC(todolistID, newTitle))
-    }
-
-    const removeTodolist = (todolistID: string) => {
-        dispatch(removeTodolistAC(todolistID))
-    }
-
-    function addTask(todolistID: string, title: string) {
-        dispatch(addTaskAC(todolistID, title))
-    }
-
-    function removeTask(todolistID: string, taskID: string) {
-        dispatch(removeTaskAC(todolistID, taskID))
-    }
-
-    const updateTask = (todolistID: string, taskID: string, newTitle: string) => {
-        dispatch(updateTaskAC(todolistID, taskID, newTitle))
-    }
-
-    function changeStatus(todolistID: string, taskId: string, newIsDone: boolean) {
-        dispatch(changeTaskStatusAC(todolistID, taskId, newIsDone))
-    }
-
-    function changeFilter(todolistID: string, valueFilter: FilterValuesType) {
-        dispatch(changeFilterAC(todolistID, valueFilter))
-    }
+    // const updateTodolist = (todolistID: string, newTitle: string) => {
+    //     dispatch(updateTodolistAC(todolistID, newTitle))
+    // }
+    //
+    // const removeTodolist = (todolistID: string) => {
+    //     dispatch(removeTodolistAC(todolistID))
+    // }
+    //
+    // function addTask(todolistID: string, title: string) {
+    //     dispatch(addTaskAC(todolistID, title))
+    // }
+    //
+    // function removeTask(todolistID: string, taskID: string) {
+    //     dispatch(removeTaskAC(todolistID, taskID))
+    // }
+    //
+    // const updateTask = (todolistID: string, taskID: string, newTitle: string) => {
+    //     dispatch(updateTaskAC(todolistID, taskID, newTitle))
+    // }
+    //
+    // function changeStatus(todolistID: string, taskId: string, newIsDone: boolean) {
+    //     dispatch(changeTaskStatusAC(todolistID, taskId, newIsDone))
+    // }
+    //
+    // function changeFilter(todolistID: string, valueFilter: FilterValuesType) {
+    //     dispatch(changeFilterAC(todolistID, valueFilter))
+    // }
 
     return (
         <div className="App">
@@ -80,6 +81,7 @@ function AppWithRedux() {
                 return (
                     <TodolistWithRedux
                      todolist={el}
+                     key={el.id}
                     />
                 )
             })}

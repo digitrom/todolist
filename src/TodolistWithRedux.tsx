@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useCallback} from 'react';
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {TaskType, TodolistsType} from "./AppWithRedux";
@@ -31,7 +31,7 @@ export function TodolistWithRedux({todolist}: PropsType) {
     const onActiveClickHandler = () => dispatch(changeFilterAC(id, "active"))
     const onCompletedClickHandler = () => dispatch(changeFilterAC(id, "completed"))
     const removeTodolistHandler = () => {dispatch(removeTodolistAC(id))}
-    const addTaskHandler = (title: string) => {dispatch(addTaskAC(id, title))}
+    const addTaskHandler = useCallback((title: string) => {dispatch(addTaskAC(id, title))}, [dispatch])
     //здесь в пар-ры  принимаем newTitle (здесь даем ему название просто title),  переданный callback-ом  из AddItemForm
     //  и передаем вместе с todolistID в callback addTask в комп-ту App
 
