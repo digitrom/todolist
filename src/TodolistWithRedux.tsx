@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback} from 'react';
+import React, {ChangeEvent, memo, useCallback} from 'react';
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {TaskType, TodolistsType} from "./AppWithRedux";
@@ -12,11 +12,13 @@ type PropsType = {
    todolist: TodolistsType
 }
 
-export function TodolistWithRedux({todolist}: PropsType) {
+export const TodolistWithRedux = memo(({todolist}: PropsType) =>{
 
     const {id, filter, title} = todolist
     // деструктуризация пропсов - берем что надо
     let tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[id])
+
+    console.log('TodolistWithRedux')
 
     if (filter === "active") {
         tasks = tasks.filter(t => t.isDone === false);
@@ -85,4 +87,4 @@ export function TodolistWithRedux({todolist}: PropsType) {
             </button>
         </div>
     </div>
-}
+})
