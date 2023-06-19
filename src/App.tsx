@@ -1,4 +1,4 @@
-import React, {Reducer, useReducer} from 'react';
+import React, {useReducer} from 'react';
 import './App.css';
 import {Todolist} from './Todolist';
 import {v1} from 'uuid';
@@ -8,10 +8,9 @@ import {
     removeTodolistAC,
     addTodolistAC,
     updateTodolistAC,
-    changeFilterAC, TodolistAllACType
+    changeFilterAC,
 } from "./store/todolists-reducer";
 import {addTaskAC, changeTaskStatusAC, removeTaskAC, tasksReducer, updateTaskAC} from "./store/tasks-reducer";
-import {TodolistWithRedux} from "./TodolistWithRedux";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
