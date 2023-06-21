@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store/store";
 import {addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskAC} from "./store/tasks-reducer";
 import {changeFilterAC, removeTodolistAC, updateTodolistAC} from "./store/todolists-reducer";
+import Task from "./Task";
 
 
 type PropsType = {
@@ -18,7 +19,7 @@ export const TodolistWithRedux = memo(({todolist}: PropsType) =>{
     // деструктуризация пропсов - берем что надо
     let tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[id])
 
-    console.log('TodolistWithRedux')
+    // console.log('TodolistWithRedux')
 
     if (filter === "active") {
         tasks = tasks.filter(t => t.isDone === false);
@@ -37,13 +38,19 @@ export const TodolistWithRedux = memo(({todolist}: PropsType) =>{
     //здесь в пар-ры  принимаем newTitle (здесь даем ему название просто title),  переданный callback-ом  из AddItemForm
     //  и передаем вместе с todolistID в callback addTask в комп-ту App
 
-    const updateTaskHandler = (taskID: string, newTitle: string) => {
+    const updateTask = useCallback((taskID: string, newTitle: string) => {
         dispatch(updateTaskAC(id, taskID, newTitle))
-    }
+    },[dispatch])
 
-    const updateTodolistHandler = (newTitle: string) => {
+    const removeTask = (taskId:string) =>  dispatch(removeTaskAC(id, taskId))
+
+    const changeTaskStatus = useCallback((taskId: string, isDone: boolean ) => {
+        dispatch(changeTaskStatusAC( id, taskId, isDone))
+    },[dispatch])
+
+    const updateTodolistHandler = useCallback((newTitle: string) => {
         dispatch(updateTodolistAC(id, newTitle))
-    }
+    },[dispatch])
 
     return <div>
         <h3>
@@ -54,24 +61,14 @@ export const TodolistWithRedux = memo(({todolist}: PropsType) =>{
 
         <ul>
             {
-                tasks. map(t => {
-                    const onClickHandler = () =>  dispatch(removeTaskAC(id, t.id))
+                tasks.map(t => {
+                    return <Task task={t}
+                                 key={t.id}
+                                 removeTask={removeTask}
+                                 changeTaskStatus={changeTaskStatus}
+                                 updateTask={updateTask}
 
-                    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                        let newIsDone = e.currentTarget.checked
-                        dispatch(changeTaskStatusAC(id, t.id, newIsDone))
-                    }
-
-                    return <li key={t.id} className={t.isDone ? "is-done" : ""}>
-                        <input type="checkbox"
-                               onChange={onChangeHandler}
-                               checked={t.isDone}/>
-                        {/*<span>{t.title}</span>*/}
-                        <EditableSpan oldTitle={t.title}
-                                      callBack={(newTitle) => updateTaskHandler(t.id, newTitle)
-                                      }/>
-                        <button onClick={onClickHandler}>x</button>
-                    </li>
+                    />
                 })
             }
         </ul>
