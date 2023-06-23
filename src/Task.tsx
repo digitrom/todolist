@@ -25,7 +25,8 @@ const Task = memo( (props: TaskPropsType) => {
             <li key={props.task.id} className={props.task.isDone ? "is-done" : ""}>
                 <input type="checkbox"
                        onChange={onChangeHandler}
-                       checked={props.task.isDone}/>
+                       checked={props.task.isDone}
+                />
                 <EditableSpan oldTitle={props.task.title}
                               callBack={updateTaskHandler}
                 />
