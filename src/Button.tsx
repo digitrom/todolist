@@ -1,20 +1,22 @@
-import React from "react";
+import React, {memo} from "react";
 
 
 export type ButtonPropsType = {
     title: 'All' | 'Active' | 'Completed'
-    onclick: () => void
+    callback: () => void
     className: string
 }
 
-const Button = (props: ButtonPropsType) => {
+const Button = memo((props: ButtonPropsType) => {
+
+    console.log('Button')
 
     return (
         <button
             className={props.className}
-            onClick={props.onclick}>
+            onClick={props.callback}>
             {props.title}</button>
     )
-}
+})
 
 export default Button
