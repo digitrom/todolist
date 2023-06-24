@@ -2,9 +2,9 @@ import React, {memo} from "react";
 
 
 export type ButtonPropsType = {
-    title: 'All' | 'Active' | 'Completed'
+    title: string
     callback: () => void
-    className: string
+    className?: string
 }
 
 const Button = memo((props: ButtonPropsType) => {

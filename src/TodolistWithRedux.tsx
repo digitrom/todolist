@@ -22,15 +22,29 @@ export const TodolistWithRedux = memo(({todolist}: PropsType) => {
 
     // console.log('TodolistWithRedux')
 
-    useMemo(() => {
-        if (filter === "active") {
-            tasks = tasks.filter(t => t.isDone === false);
-        }
-        if (filter === "completed") {
-            tasks = tasks.filter(t => t.isDone === true);
-        }
-        return tasks
-    },[filter])
+
+    // проба использования useMemo
+    //использовать здесь не надо, так как затраты на вызов и выполнение хука больше
+    // чем просчет этого блока кода
+    // вывод - используем useMemo когда, напр. большой switch case
+
+    // useMemo(() => {
+    //     if (filter === "active") {
+    //         tasks = tasks.filter(t => t.isDone === false);
+    //     }
+    //     if (filter === "completed") {
+    //         tasks = tasks.filter(t => t.isDone === true);
+    //     }
+    //     return tasks
+    // },[filter])
+
+
+    if (filter === "active") {
+        tasks = tasks.filter(t => t.isDone === false);
+    }
+    if (filter === "completed") {
+        tasks = tasks.filter(t => t.isDone === true);
+    }
 
     const dispatch = useDispatch()
 
@@ -40,8 +54,8 @@ export const TodolistWithRedux = memo(({todolist}: PropsType) => {
         dispatch(changeFilterAC(id, "active")),[dispatch])
     const onCompletedClickHandler = useCallback(() =>
         dispatch(changeFilterAC(id, "completed")),[dispatch])
-    const removeTodolistHandler = () =>
-        dispatch(removeTodolistAC(id))
+
+    const removeTodolistHandler = useCallback(() => dispatch(removeTodolistAC(id)),[])
     const addTaskHandler = useCallback((title: string) => {
         dispatch(addTaskAC(id, title))
     }, [dispatch])
@@ -52,7 +66,7 @@ export const TodolistWithRedux = memo(({todolist}: PropsType) => {
         dispatch(updateTaskAC(id, taskID, newTitle))
     }, [dispatch])
 
-    const removeTask = (taskId: string) => dispatch(removeTaskAC(id, taskId))
+    const removeTask = useCallback((taskId: string) => dispatch(removeTaskAC(id, taskId)),[])
 
     const changeTaskStatus = useCallback((taskId: string, isDone: boolean) => {
         dispatch(changeTaskStatusAC(id, taskId, isDone))

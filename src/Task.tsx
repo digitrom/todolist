@@ -1,6 +1,7 @@
 import React, {ChangeEvent, memo, useCallback} from 'react'
 import {EditableSpan} from "./EditableSpan";
 import {TaskType} from "./AppWithRedux";
+import Button from "./Button";
 
 
 type TaskPropsType = {
@@ -11,7 +12,7 @@ type TaskPropsType = {
 }
 
 const Task = memo( (props: TaskPropsType) => {
-    const onClickHandler = () =>  props.removeTask(props.task.id)
+    const onClickHandler = useCallback(() =>  props.removeTask(props.task.id),[props.task.id])
 
     const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked
@@ -30,7 +31,7 @@ const Task = memo( (props: TaskPropsType) => {
                 <EditableSpan oldTitle={props.task.title}
                               callBack={updateTaskHandler}
                 />
-                <button onClick={onClickHandler}>x</button>
+                <Button callback={onClickHandler} title={'x'}/>
             </li>
     )
 })
